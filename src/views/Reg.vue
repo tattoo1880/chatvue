@@ -125,31 +125,8 @@ const Top = ref("top");
 
 // 处理注册逻辑
 const handleRegister = async () => {
-    try {
-        const resp = await regStore.cofirmReg(
-            formLabelAlign.value.name,
-            formLabelAlign.value.password,
-            formLabelAlign.value.confirmpassword
-        );
-        console.log("注册响应：", resp);
-        if (resp.status != 200) {
-            ElMessage.error("注册失败，请检查用户名或密码");
-        }
-
-        if (resp.status === 200) {
-            if (resp.data.message == "用户名已存在") {
-                ElMessage.error("用户名已存在，请更换用户名");
-            } else if (resp.data.message == "用户创建成功") {
-                ElMessage.success("注册成功");
-                // 注册成功后跳转到登录页面
-                router.push({ name: "login" });
-            } else {
-                ElMessage.error("注册失败，请稍后再试");
-            }
-        }
-    } catch (error) {
-        console.error(error);
-    }
+    let { name, password, confirmpassword } = formLabelAlign.value;
+    await regStore.regAction(name, password, confirmpassword);
 };
 </script>
 

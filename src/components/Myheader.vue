@@ -27,12 +27,12 @@
         <el-sub-menu index="2">
             <template #title>
                 <el-text style="color: #adff2f">
-                    <strong>功能</strong>
+                    <strong>{{ loginfrom.name }}</strong>
                 </el-text>
             </template>
-            <el-menu-item index="2-1" @click="tocustomer">
+            <el-menu-item index="2-1" @click="handleLogout">
                 <el-text style="color: #adff2f">
-                    <strong>用户管理</strong>
+                    <strong>登出</strong>
                 </el-text>
             </el-menu-item>
         </el-sub-menu>
@@ -42,10 +42,21 @@
 <script setup>
 import { ref } from "vue";
 import { useRouter } from "vue-router";
+import { useLoginStore } from "@/stores/useloginstore";
+
+const useloginstore = useLoginStore();
+import { ElMessage } from "element-plus";
 
 const activeIndex = ref("1");
 const handleSelect = (key, keyPath) => {
     console.log(key, keyPath);
+};
+
+const { loginfrom, logOutAction } = useloginstore;
+const handleLogout = () => {
+    logOutAction();
+    ElMessage.success("登出成功");
+    router.push({ name: "login" });
 };
 
 const router = useRouter();

@@ -72,7 +72,7 @@
                                         <el-button
                                             type="primary"
                                             plain
-                                            @click=""
+                                            @click="handleLogin"
                                             >LOGIN</el-button
                                         >
                                         <el-button
@@ -99,6 +99,8 @@ import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { ElMessage } from "element-plus";
 import srcImage from "@/assets/loginimage.jpg";
+import { useLoginStore } from "@/stores/useloginstore";
+const loginStore = useLoginStore();
 
 const fit = ref("fill");
 const formLabelAlign = ref({
@@ -107,6 +109,21 @@ const formLabelAlign = ref({
 });
 const router = useRouter();
 const Top = ref("top");
+
+// 处理登录逻辑
+const handleLogin = async () => {
+    if (
+        formLabelAlign.value.name === "" ||
+        formLabelAlign.value.password === ""
+    ) {
+        ElMessage.error("用户名或密码不能为空");
+        return;
+    }
+    await loginStore.login(
+        formLabelAlign.value.name,
+        formLabelAlign.value.password
+    );
+};
 </script>
 
 <style scoped>
