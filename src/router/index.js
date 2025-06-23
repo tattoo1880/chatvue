@@ -18,9 +18,15 @@ const router = createRouter({
       name: "home",
       path: '/home',
       component: () => import('../views/Home.vue'),
+      children: [
+        {
+          name: "chat",
+          path: '',
+          component: () => import('@/components/ChatComponet.vue'),
+        }
+      ]
     }
-
-  ],
+  ]
 })
 
 export default router

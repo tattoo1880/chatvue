@@ -4,18 +4,19 @@ import { ElMessage } from 'element-plus'
 import axios from 'axios'
 import APIURL from '@/utils/BaseUrl'
 import { useRouter } from 'vue-router'
-import router from '@/router'
 
 export const useLoginStore = defineStore('uselogin', () => {
 
     const router = useRouter()
 
     const loginfrom = ref({
+        userid: null,
         name: '',
         password: ''
     })
 
     const setLoginFrom = (name, password) => {
+        console.log("设置登录表单：", name, password)
         loginfrom.value.name = name
         loginfrom.value.password = password
     }
@@ -26,6 +27,7 @@ export const useLoginStore = defineStore('uselogin', () => {
 
     const loginAction = async (name, password) => {
         setLoginFrom(name, password)
+        console.log(loginfrom.value)
         const response = await axios.post(`${APIURL}/api/users/login`, {
             name: loginfrom.value.name,
             password: loginfrom.value.password
@@ -41,9 +43,10 @@ export const useLoginStore = defineStore('uselogin', () => {
 
 
             if (resp.data.message === "登录成功") {
+                loginfrom.value.userid = resp.data.user.id
                 ElMessage.success("登录成功")
                 // 登录成功后跳转到首页
-                router.push({ name: "home" })
+                router.push({ name: "chat" })
             }
 
 
@@ -70,4 +73,6 @@ export const useLoginStore = defineStore('uselogin', () => {
 
 
 
+}, {
+    persist: true
 })
