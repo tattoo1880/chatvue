@@ -9,7 +9,8 @@ const connectWS = (userid, onMessageCallback) => {
         socket.close()
     }
 
-    const wsUrl = `ws://80.66.196.161/api/rabbitmq/ws?user_id=${userid}`
+    // const wsUrl = `ws://80.66.196.161/api/rabbitmq/ws?user_id=${userid}`
+    const wsUrl = `ws://80.66.196.161/ws/send/?user_id=${userid}`
     socket = new WebSocket(wsUrl)
 
     socket.onopen = () => {
