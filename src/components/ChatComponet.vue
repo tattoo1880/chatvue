@@ -54,16 +54,16 @@
 
 
         </el-form>
-        <el-row class='row-bg' justify='center' style="margin-top: 10px;">
+        <el-row class='row-bg' justify='center' style="margin-top: 3px;">
             <el-button type="primary" @click="handleSend" :disabled="!selectedUser || !sendMsg" plain>发送</el-button>
         </el-row>
     </el-card>
 </template>
 
 <script setup>
-import { ref, onMounted, computed } from 'vue'
+import { ref, onMounted, computed, onBeforeUnmount, onBeforeMount } from 'vue'
 import { useLoginStore } from '@/stores/useloginstore'
-import { connectWS, sendMessage } from '@/utils/linkws'
+import { connectWS, sendMessage, closeWS } from '@/utils/linkws'
 import { useChatStore } from '@/stores/usechatstore'
 
 const chatStore = useChatStore()
@@ -76,21 +76,13 @@ const msgList = ref([])
 const sendMsg = ref('')
 const selectedUser = ref(null)
 
-// const tablelist = computed(() => {
-//     return msgList.value.map(msg => {
-//         console.log(msg)
-//         const data = JSON.parse(msg)
-//         const username = userlist.find(user => user.id === Number(data.from_userid))?.name || '未知用户'
-
-//         return `用户 ${username} 说: ${data.msg}`
-//     })
-// })
-
 const tablelist = computed(() => {
     return msgList.value.map(msg => {
+        console.log(msg)
         const data = JSON.parse(msg)
         const username = userlist.find(user => user.id === Number(data.from_userid))?.name || '未知用户'
-
+        console.log(username)
+        console.log(data)
         return {
             text: `用户 ${username} 说: ${data.msg}`,
             isSelf: data.from_userid === String(loginfrom.userid)
@@ -99,7 +91,11 @@ const tablelist = computed(() => {
 })
 
 
-onMounted(async () => {
+
+
+
+
+onBeforeMount(async () => {
     console.log('组件加载完成')
     console.log('用户ID:', loginfrom.userid)
 
@@ -108,11 +104,20 @@ onMounted(async () => {
     console.log('用户列表:', userlist)
 
 
+
+
     connectWS(loginfrom.userid, (msg) => {
         msgList.value.push(msg)
     })
+    console.log('WebSocket连接已建立', msgList.value)
 
 
+})
+
+onBeforeUnmount(() => {
+
+    console.log('组件卸载，关闭WebSocket连接')
+    closeWS()
 })
 
 const handleSend = async () => {
@@ -214,7 +219,7 @@ const handleSend = async () => {
     border: 1px solid #4978e3;
     border-radius: 4px;
     padding: 10px;
-    height: 200px;
+    height: 150px;
     overflow-y: auto;
     background-color: #1e1e1e;
     margin-bottom: 20px;

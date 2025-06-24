@@ -42,4 +42,11 @@ const sendMessage = (data) => {
     }
 }
 
-export { socket, connectWS, sendMessage }
+const closeWS = () => {
+    if (socket) {
+        socket.close()
+        socket = null
+    }
+}
+
+export { socket, connectWS, sendMessage, closeWS }

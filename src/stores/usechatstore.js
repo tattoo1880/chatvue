@@ -16,6 +16,7 @@ export const useChatStore = defineStore('usechat', () => {
             const response = await axios.get(`${APIURL}/api/users`)
             userlist.value = response.data
             console.log("获取用户信息成功:", userlist.value)
+            return userlist.value
         } catch (error) {
             console.error("获取用户信息失败:", error)
             ElMessage.error("获取用户信息失败")
