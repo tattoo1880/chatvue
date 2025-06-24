@@ -11,6 +11,15 @@ export const useChatStore = defineStore('usechat', () => {
 
     const userlist = ref([])
 
+
+    const setuserlist = (list) => {
+        userlist.value = list
+    }
+
+    const getuserlist = () => {
+        return userlist.value
+    }
+
     const getalluserinfo = async () => {
         try {
             const response = await axios.get(`${APIURL}/api/users`)

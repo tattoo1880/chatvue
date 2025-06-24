@@ -65,9 +65,11 @@ import { ref, onMounted, computed, onBeforeUnmount, onBeforeMount } from 'vue'
 import { useLoginStore } from '@/stores/useloginstore'
 import { connectWS, sendMessage, closeWS } from '@/utils/linkws'
 import { useChatStore } from '@/stores/usechatstore'
+import { storeToRefs } from 'pinia'
 
 const chatStore = useChatStore()
-const { userlist, getalluserinfo, sendnewmessage } = chatStore
+const { getalluserinfo, sendnewmessage } = chatStore
+const { userlist } = storeToRefs(chatStore)
 
 const loginStore = useLoginStore()
 const { loginfrom } = loginStore
