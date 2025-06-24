@@ -14,9 +14,24 @@
                     justify-content: center;
                 "
             >
-                <RouterLink :to="{}" class="router-link">
+                <RouterLink :to="{ name: 'chat' }" class="router-link">
                     <el-text type="primary">
                         <h4 style="color: chartreuse">通讯管理</h4>
+                    </el-text>
+                </RouterLink>
+            </el-menu-item>
+            <el-menu-item
+                index="1"
+                style="
+                    width: 200px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                "
+            >
+                <RouterLink :to="{ name: 'history' }" class="router-link">
+                    <el-text type="primary">
+                        <h4 style="color: chartreuse">历史记录</h4>
                     </el-text>
                 </RouterLink>
             </el-menu-item>

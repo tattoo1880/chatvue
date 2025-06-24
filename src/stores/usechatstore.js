@@ -1,24 +1,21 @@
 import { ref, computed, reactive } from 'vue'
-import { defineStore } from 'pinia'
+import { defineStore, storeToRefs } from 'pinia'
 import { ElMessage } from 'element-plus'
 import axios from 'axios'
 import APIURL from '@/utils/BaseUrl'
-import { useRouter } from 'vue-router'
+import { useLoginStore } from './useloginstore'
+
 
 
 
 export const useChatStore = defineStore('usechat', () => {
 
+    const loginStore = useLoginStore()
+    const {loginfrom} = storeToRefs(loginStore)
+
+
+
     const userlist = ref([])
-
-
-    const setuserlist = (list) => {
-        userlist.value = list
-    }
-
-    const getuserlist = () => {
-        return userlist.value
-    }
 
     const getalluserinfo = async () => {
         try {
@@ -49,8 +46,23 @@ export const useChatStore = defineStore('usechat', () => {
         }
     }
 
+    const getmsgbytouser = async () => {
 
-    return { userlist, getalluserinfo, sendnewmessage }
+        console.log("获取消息的用户ID:", loginfrom.value.userid)
+        const touserid = loginfrom.value.userid
+
+        try {
+            const response = await axios.get(`${APIURL}/api/chatmsg/to/${touserid}`)
+            console.log("获取消息成功:", response.data)
+            return response.data
+        } catch (error) {
+            console.error("获取消息失败:", error)
+            ElMessage.error("获取消息失败")
+        }
+    }
+
+
+    return { userlist, getalluserinfo, sendnewmessage, getmsgbytouser }
 
 
 }, { persist: true })

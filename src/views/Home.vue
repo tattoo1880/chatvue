@@ -16,7 +16,8 @@
             </el-aside>
 
             <el-main class="my-main">
-                <el-row style="flex: 1 1 auto; overflow: hidden">
+                <!-- <el-row style="flex: 1 1 auto; overflow: hidden"> -->
+                <el-row class="row-bg" justify="center">
                     <RouterView />
                 </el-row>
 
