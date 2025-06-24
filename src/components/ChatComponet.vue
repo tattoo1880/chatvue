@@ -82,7 +82,8 @@ const tablelist = computed(() => {
     return msgList.value.map(msg => {
         console.log(msg)
         const data = JSON.parse(msg)
-        const username = userlist.find(user => user.id === Number(data.from_userid))?.name || '未知用户'
+        // const username = userlist.find(user => user.id === Number(data.from_userid))?.name || '未知用户'
+        const username = userlist.value.find(user => user.id === Number(data.from_userid))?.name || '未知用户'
         console.log(username)
         console.log(data)
         return {
