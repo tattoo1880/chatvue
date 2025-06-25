@@ -9,12 +9,13 @@ const connectWS = (userid, onMessageCallback) => {
         socket.close()
     }
 
-    const wsUrl = `ws://127.0.0.1:8080/api/rabbitmq/ws?user_id=${userid}`
-    // const wsUrl = `ws://80.66.196.161/ws/send/?user_id=${userid}`
+    // const wsUrl = `ws://127.0.0.1:8080/api/rabbitmq/ws?user_id=${userid}`
+    const wsUrl = `ws://80.66.196.161/ws/send/?user_id=${userid}`
     socket = new WebSocket(wsUrl)
 
     socket.onopen = () => {
         ElMessage.success('✅ WebSocket 连接成功')
+
     }
 
     socket.onmessage = (event) => {
