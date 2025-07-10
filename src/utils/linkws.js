@@ -10,7 +10,7 @@ const connectWS = (userid, onMessageCallback) => {
     }
 
     // const wsUrl = `ws://127.0.0.1:8080/api/rabbitmq/ws?user_id=${userid}`
-    const wsUrl = `ws://103.201.130.217/ws/send/?user_id=${userid}`
+    const wsUrl = `wss://newtest.purecode.dpdns.org/ws/send/?user_id=${userid}`
     socket = new WebSocket(wsUrl)
 
     socket.onopen = () => {
